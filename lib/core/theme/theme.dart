@@ -3,7 +3,9 @@ import 'package:mini_court_book/core/theme/app_palette.dart';
 
 class AppTheme {
   late double defaultFontSize = 16.0;
+
   static final theme = ThemeData.light().copyWith(
+    primaryColor: AppPalette.primaryColor,
     colorScheme: const ColorScheme.light(
       primary: AppPalette.primaryColor,
       error: AppPalette.errorColor,
