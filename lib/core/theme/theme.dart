@@ -17,6 +17,7 @@ class AppTheme {
       backgroundColor: AppPalette.surfaceColor,
       foregroundColor: AppPalette.textPrimaryColor,
       centerTitle: true,
+      scrolledUnderElevation: 0,
     ),
     cardTheme: CardThemeData(
       elevation: 2,
