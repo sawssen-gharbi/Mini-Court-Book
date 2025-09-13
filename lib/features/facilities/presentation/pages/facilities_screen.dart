@@ -35,19 +35,19 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                       itemCount: state.facilities.length,
                       itemBuilder: (context, index) {
                         final facility = state.facilities[index];
-
                         return CardWidget(
                           facilityImage: facility.thumbnail,
                           facilityName: facility.name,
                           cityName: facility.city,
                           sports: facility.sports,
-
                           courtsNumber: facility.courts.length,
                         );
                       },
                     );
                   } else if (state is FacilitiesLoading) {
                     return CircularProgressIndicator(color: Colors.black);
+                  } else if (state is FacilitiesEmpty) {
+                    return Text("No data");
                   }
                 }
                 return const SizedBox.shrink();
