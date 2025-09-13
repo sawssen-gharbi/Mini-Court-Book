@@ -1,0 +1,229 @@
+{
+  "facilities": [
+    {
+      "id": "fac_001",
+      "name": "City Sports Arena",
+      "city": "Tunis",
+      "sports": ["football", "padel"],
+      "thumbnail": "https://picsum.photos/seed/arena/300/200",
+      "courts": [
+        {
+          "id": "c_f7",
+          "sport": "football",
+          "label": "Football 7s",
+          "price": 80.0,
+          "slotMinutes": 60,
+          "dailyOpen": "09:00",
+          "dailyClose": "21:00"
+        },
+        {
+          "id": "c_pA",
+          "sport": "padel",
+          "label": "Padel A",
+          "price": 60.0,
+          "slotMinutes": 60,
+          "dailyOpen": "09:00",
+          "dailyClose": "21:00"
+        }
+      ]
+    },
+    {
+      "id": "fac_002",
+      "name": "Medina Sports Complex",
+      "city": "Sousse",
+      "sports": ["basketball", "volleyball"],
+      "thumbnail": "https://picsum.photos/seed/medina/300/200",
+      "courts": [
+        {
+          "id": "c_b1",
+          "sport": "basketball",
+          "label": "Basketball Court 1",
+          "price": 50.0,
+          "slotMinutes": 60,
+          "dailyOpen": "08:00",
+          "dailyClose": "22:00"
+        },
+        {
+          "id": "c_v1",
+          "sport": "volleyball",
+          "label": "Volleyball Court A",
+          "price": 40.0,
+          "slotMinutes": 90,
+          "dailyOpen": "08:00",
+          "dailyClose": "22:00"
+        }
+      ]
+    },
+    {
+      "id": "fac_003",
+      "name": "Seaside Tennis Club",
+      "city": "Hammamet",
+      "sports": ["tennis"],
+      "thumbnail": "https://picsum.photos/seed/seaside/300/200",
+      "courts": [
+        {
+          "id": "c_t1",
+          "sport": "tennis",
+          "label": "Tennis Court 1",
+          "price": 45.0,
+          "slotMinutes": 60,
+          "dailyOpen": "07:00",
+          "dailyClose": "20:00"
+        },
+        {
+          "id": "c_t2",
+          "sport": "tennis",
+          "label": "Tennis Court 2",
+          "price": 45.0,
+          "slotMinutes": 60,
+          "dailyOpen": "07:00",
+          "dailyClose": "20:00"
+        }
+      ]
+    },
+    {
+      "id": "fac_004",
+      "name": "Downtown Fitness Center",
+      "city": "Tunis",
+      "sports": ["badminton"],
+      "thumbnail": "https://picsum.photos/seed/fitness/300/200",
+      "courts": [
+        {
+          "id": "c_bm1",
+          "sport": "badminton",
+          "label": "Badminton Court 1",
+          "price": 30.0,
+          "slotMinutes": 30,
+          "dailyOpen": "10:00",
+          "dailyClose": "23:00"
+        },
+        {
+          "id": "c_bm2",
+          "sport": "badminton",
+          "label": "Badminton Court 2",
+          "price": 35.0,
+          "slotMinutes": 30,
+          "dailyOpen": "10:00",
+          "dailyClose": "23:00"
+        }
+      ]
+    },
+    {
+      "id": "fac_005",
+      "name": "Mountain Tennis & Padel Club",
+      "city": "Kairouan",
+      "sports": ["tennis", "padel"],
+      "thumbnail": "https://picsum.photos/seed/mountainclub/300/200",
+      "courts": [
+        {
+          "id": "c_mt1",
+          "sport": "tennis",
+          "label": "Tennis Court A",
+          "price": 50.0,
+          "slotMinutes": 60,
+          "dailyOpen": "08:00",
+          "dailyClose": "21:00"
+        },
+        {
+          "id": "c_mp1",
+          "sport": "padel",
+          "label": "Padel Court 1",
+          "price": 65.0,
+          "slotMinutes": 60,
+          "dailyOpen": "08:00",
+          "dailyClose": "21:00"
+        }
+      ]
+    },
+    {
+      "id": "fac_006",
+      "name": "Green Park Padel Club",
+      "city": "Nabeul",
+      "sports": ["padel"],
+      "thumbnail": "https://picsum.photos/seed/padelclub/300/200",
+      "courts": [
+        {
+          "id": "c_p1",
+          "sport": "padel",
+          "label": "Padel Court 1",
+          "price": 70.0,
+          "slotMinutes": 60,
+          "dailyOpen": "09:00",
+          "dailyClose": "22:00"
+        },
+        {
+          "id": "c_p2",
+          "sport": "padel",
+          "label": "Padel Court 2",
+          "price": 70.0,
+          "slotMinutes": 60,
+          "dailyOpen": "09:00",
+          "dailyClose": "22:00"
+        }
+      ]
+    },
+    {
+      "id": "fac_007",
+      "name": "Arena Five Football Center",
+      "city": "Tunis",
+      "sports": ["football"],
+      "thumbnail": "https://picsum.photos/seed/football5/300/200",
+      "courts": [
+        {
+          "id": "c_f5a",
+          "sport": "football",
+          "label": "Football 5s A",
+          "price": 90.0,
+          "slotMinutes": 60,
+          "dailyOpen": "08:00",
+          "dailyClose": "00:00"
+        },
+        {
+          "id": "c_f5b",
+          "sport": "football",
+          "label": "Football 5s B",
+          "price": 90.0,
+          "slotMinutes": 60,
+          "dailyOpen": "08:00",
+          "dailyClose": "00:00"
+        }
+      ]
+    },
+    {
+      "id": "fac_008",
+      "name": "Elite Multi-Sport Hall",
+      "city": "Monastir",
+      "sports": ["basketball", "handball", "volleyball"],
+      "thumbnail": "https://picsum.photos/seed/multisport/300/200",
+      "courts": [
+        {
+          "id": "c_h1",
+          "sport": "handball",
+          "label": "Handball Court",
+          "price": 60.0,
+          "slotMinutes": 90,
+          "dailyOpen": "09:00",
+          "dailyClose": "22:00"
+        },
+        {
+          "id": "c_b2",
+          "sport": "basketball",
+          "label": "Basketball Court 2",
+          "price": 55.0,
+          "slotMinutes": 60,
+          "dailyOpen": "09:00",
+          "dailyClose": "22:00"
+        },
+        {
+          "id": "c_v2",
+          "sport": "volleyball",
+          "label": "Volleyball Court B",
+          "price": 45.0,
+          "slotMinutes": 90,
+          "dailyOpen": "09:00",
+          "dailyClose": "22:00"
+        }
+      ]
+    }
+  ]
+}
