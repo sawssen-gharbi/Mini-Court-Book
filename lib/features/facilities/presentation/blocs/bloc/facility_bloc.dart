@@ -6,7 +6,7 @@ import 'package:mini_court_book/features/facilities/domain/repositories/facility
 part 'facility_event.dart';
 part 'facility_state.dart';
 
-class FacilityBloc extends Bloc<FacilityEvent, FacilitiesState> {
+class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
   final FacilityRepository _facilityRepository;
   FacilityBloc(this._facilityRepository) : super(FacilityInitial()) {
     on<LoadFacilities>(_onLoadFacilities);
@@ -14,7 +14,7 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilitiesState> {
 
   Future<void> _onLoadFacilities(
     LoadFacilities event,
-    Emitter<FacilitiesState> emit,
+    Emitter<FacilityState> emit,
   ) async {
     emit(FacilitiesLoading());
 

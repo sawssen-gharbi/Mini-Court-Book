@@ -7,7 +7,6 @@ class CardWidget extends StatelessWidget {
   final String facilityName;
   final String cityName;
   final List<String> sports;
-  final String sportName;
   final int courtsNumber;
   const CardWidget({
     super.key,
@@ -15,7 +14,6 @@ class CardWidget extends StatelessWidget {
     required this.facilityName,
     required this.cityName,
     required this.sports,
-    required this.sportName,
     required this.courtsNumber,
   });
 
@@ -81,7 +79,7 @@ class CardWidget extends StatelessWidget {
                         .map(
                           (sport) => Chip(
                             label: Text(
-                              sportName,
+                              sport,
                               style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
