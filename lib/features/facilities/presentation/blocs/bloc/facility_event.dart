@@ -8,3 +8,15 @@ sealed class FacilityEvent extends Equatable {
 }
 
 class LoadFacilities extends FacilityEvent {}
+
+class SearchFacilities extends FacilityEvent {
+  final String searchText;
+
+  const SearchFacilities(this.searchText);
+}
+
+class FilterFacilities extends FacilityEvent {
+  final String cityFilter;
+
+  const FilterFacilities(this.cityFilter);
+}

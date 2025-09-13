@@ -2,4 +2,6 @@ import 'package:mini_court_book/features/facilities/domain/entities/facility.dar
 
 abstract class FacilityRepository {
   Future<List<Facility>> getFacilities();
+  Future<List<Facility>> searchFacilities(String? searchText);
+  Future<List<Facility>> filterFacilities(String? cityFilter);
 }

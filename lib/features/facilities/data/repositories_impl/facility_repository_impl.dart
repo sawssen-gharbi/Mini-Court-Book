@@ -15,4 +15,22 @@ class FacilityRepositoryImpl implements FacilityRepository {
       throw Exception('Failed to load facilities: $e');
     }
   }
+
+  @override
+  Future<List<Facility>> searchFacilities(String? searchText) {
+    try {
+      return facilityLocalDataSource.searchFacilities(searchText);
+    } catch (e) {
+      throw Exception('Failed to load facilities: $e');
+    }
+  }
+
+  @override
+  Future<List<Facility>> filterFacilities(String? cityFilter) {
+    try {
+      return facilityLocalDataSource.filterFacilities(cityFilter);
+    } catch (e) {
+      throw Exception('Failed to load facilities: $e');
+    }
+  }
 }

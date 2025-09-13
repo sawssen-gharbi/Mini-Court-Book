@@ -1,6 +1,6 @@
 part of 'facility_bloc.dart';
 
-sealed class FacilityState extends Equatable {
+class FacilityState extends Equatable {
   const FacilityState();
 
   @override
@@ -13,7 +13,38 @@ class FacilitiesLoading extends FacilityState {}
 
 class FacilitiesLoaded extends FacilityState {
   final List<Facility> facilities;
-  const FacilitiesLoaded({required this.facilities});
+  final List<Facility> filteredFacilities;
+  final String? searchText;
+  final String? cityFilter;
+
+  const FacilitiesLoaded({
+    required this.facilities,
+    required this.filteredFacilities,
+    this.searchText,
+    this.cityFilter,
+  });
+
+  FacilitiesLoaded copyWith({
+    List<Facility>? facilities,
+    List<Facility>? filteredFacilities,
+    String? searchText,
+    String? cityFilter,
+  }) {
+    return FacilitiesLoaded(
+      facilities: facilities ?? this.facilities,
+      filteredFacilities: filteredFacilities ?? this.filteredFacilities,
+      searchText: searchText ?? this.searchText,
+      cityFilter: cityFilter ?? this.cityFilter,
+    );
+  }
+
+  @override
+  List<Object> get props => [
+    facilities,
+    filteredFacilities,
+    searchText!,
+    cityFilter!,
+  ];
 }
 
 class FacilitiesError extends FacilityState {
