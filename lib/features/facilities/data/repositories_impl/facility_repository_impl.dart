@@ -33,4 +33,22 @@ class FacilityRepositoryImpl implements FacilityRepository {
       throw Exception('Failed to load facilities: $e');
     }
   }
+
+  @override
+  Future<Facility?> getOneFacility(String id) {
+    try {
+      return facilityLocalDataSource.getOneFacility(id);
+    } catch (e) {
+      throw Exception('Failed to load facilities: $e');
+    }
+  }
+
+  @override
+  List<String> generateAllTimeSlots(String dailyOpen, String dailyClose) {
+    try {
+      return facilityLocalDataSource.generateAllTimeSlots(dailyOpen,dailyClose);
+    } catch (e) {
+      throw Exception('Failed to load slotd: $e');
+    }
+  }
 }

@@ -58,3 +58,65 @@ class FacilitiesEmpty extends FacilityState {
 
   const FacilitiesEmpty({this.message = 'No facilities found.'});
 }
+
+class FacilityDetailsLoading extends FacilityState {}
+
+class FacilityDetailsLoaded extends FacilityState {
+  final Facility facility;
+  final Court? selectedCourt;
+  final DateTime? selectedDate;
+  final String? selectedTime;
+  final List<String> allTimeSlots;
+  final List<String> availableTimeSlots;
+  final bool isLoadingSlots;
+
+  const FacilityDetailsLoaded({
+    required this.facility,
+    this.selectedCourt,
+    this.selectedDate,
+    this.selectedTime,
+    this.allTimeSlots = const [],
+    this.availableTimeSlots = const [],
+    this.isLoadingSlots = false,
+  });
+
+  FacilityDetailsLoaded copyWith({
+    Facility? facility,
+    Court? selectedCourt,
+    DateTime? selectedDate,
+    String? selectedTime,
+    List<String>? allTimeSlots,
+    List<String>? availableTimeSlots,
+    bool? isLoadingSlots,
+  }) {
+    return FacilityDetailsLoaded(
+      facility: facility ?? this.facility,
+      selectedCourt: selectedCourt ?? this.selectedCourt,
+      selectedDate: selectedDate ?? this.selectedDate,
+      selectedTime: selectedTime ?? this.selectedTime,
+      allTimeSlots: allTimeSlots ?? this.allTimeSlots,
+      availableTimeSlots: availableTimeSlots ?? this.availableTimeSlots,
+      isLoadingSlots: isLoadingSlots ?? this.isLoadingSlots,
+    );
+  }
+
+  bool get canCreateBooking =>
+      selectedCourt != null && selectedDate != null && selectedTime != null;
+
+  @override
+  List<Object?> get props => [
+    facility,
+    selectedCourt,
+    selectedDate,
+    selectedTime,
+    allTimeSlots,
+    availableTimeSlots,
+    isLoadingSlots,
+  ];
+}
+
+class FacilityDetailsError extends FacilityState {
+  final String message;
+
+  const FacilityDetailsError(this.message);
+}

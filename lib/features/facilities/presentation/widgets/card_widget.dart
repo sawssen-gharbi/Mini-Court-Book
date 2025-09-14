@@ -8,13 +8,14 @@ class CardWidget extends StatelessWidget {
   final String cityName;
   final List<String> sports;
   final int courtsNumber;
+  final VoidCallback onTap;
   const CardWidget({
     super.key,
     required this.facilityImage,
     required this.facilityName,
     required this.cityName,
     required this.sports,
-    required this.courtsNumber,
+    required this.courtsNumber, required this.onTap,
   });
 
   @override
@@ -22,7 +23,7 @@ class CardWidget extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: InkWell(
-        onTap: () async {},
+        onTap: onTap,
         borderRadius: BorderRadius.circular(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

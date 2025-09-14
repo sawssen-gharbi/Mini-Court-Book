@@ -4,4 +4,6 @@ abstract class FacilityRepository {
   Future<List<Facility>> getFacilities();
   Future<List<Facility>> searchFacilities(String? searchText);
   Future<List<Facility>> filterFacilities(String? cityFilter);
+  Future<Facility?> getOneFacility(String id);
+  List<String> generateAllTimeSlots(String dailyOpen, String dailyClose);
 }

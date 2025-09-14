@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mini_court_book/features/facilities/presentation/pages/facility_details_screen.dart';
 import 'package:mini_court_book/features/facilities/presentation/blocs/bloc/facility_bloc.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/card_widget.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/search_filter_widget.dart';
@@ -165,6 +166,16 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                             cityName: facility.city,
                             sports: facility.sports,
                             courtsNumber: facility.courts.length,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FacilityDetailsScreen(
+                                    facilityId: facility.id,
+                                  ),
+                                ),
+                              );
+                            },
                           );
                         },
                       ),
