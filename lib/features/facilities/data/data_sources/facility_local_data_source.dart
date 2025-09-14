@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:mini_court_book/features/bookings/domain/entities/booking.dart';
 import 'package:mini_court_book/features/facilities/domain/entities/facility.dart';
+import 'package:mini_court_book/injection_container.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 sealed class FacilityLocalDataSource {
   Future<List<Facility>> getFacilities();
@@ -10,6 +13,8 @@ sealed class FacilityLocalDataSource {
   Future<List<Facility>> filterFacilities(String? cityFilter);
   Future<Facility?> getOneFacility(String id);
   List<String> generateAllTimeSlots(String dailyOpen, String dailyClose);
+  Future<List<Booking>> getAllBookings();
+  Future<bool> saveBooking(Booking booking);
 }
 
 class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
@@ -99,20 +104,59 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
 
     return slots;
   }
-}
 
-DateTime _parseTime(String time) {
-  final now = DateTime.now();
-  final jiffy = Jiffy.parse(time, pattern: "HH:mm");
-  return DateTime(
-    now.year,
-    now.month,
-    now.day,
-    jiffy.dateTime.hour,
-    jiffy.dateTime.minute,
-  );
-}
+  @override
+  Future<List<Booking>> getAllBookings() async {
+    try {
+      final String? bookingsJson = serviceLocator<SharedPreferences>()
+          .getString("bookings");
+      if (bookingsJson == null || bookingsJson.isEmpty) {
+        return [];
+      }
 
-String _formatTime(DateTime time) {
-  return Jiffy.parseFromDateTime(time).format(pattern: "HH:mm");
+      final List<dynamic> bookingsList = json.decode(bookingsJson);
+      return bookingsList
+          .map((json) => Booking.fromJson(json as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      print('Error loading bookings: $e');
+      return [];
+    }
+  }
+
+  @override
+  Future<bool> saveBooking(Booking booking) async {
+    try {
+      final bookings = await getAllBookings();
+      bookings.add(booking);
+
+      final String bookingsJson = json.encode(
+        bookings.map((b) => b.toJson()).toList(),
+      );
+
+      return await serviceLocator<SharedPreferences>().setString(
+        "bookings",
+        bookingsJson,
+      );
+    } catch (e) {
+      print('Error saving booking: $e');
+      return false;
+    }
+  }
+
+  DateTime _parseTime(String time) {
+    final now = DateTime.now();
+    final jiffy = Jiffy.parse(time, pattern: "HH:mm");
+    return DateTime(
+      now.year,
+      now.month,
+      now.day,
+      jiffy.dateTime.hour,
+      jiffy.dateTime.minute,
+    );
+  }
+
+  String _formatTime(DateTime time) {
+    return Jiffy.parseFromDateTime(time).format(pattern: "HH:mm");
+  }
 }

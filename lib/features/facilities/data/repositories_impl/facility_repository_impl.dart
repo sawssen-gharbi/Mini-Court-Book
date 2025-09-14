@@ -1,3 +1,4 @@
+import 'package:mini_court_book/features/bookings/domain/entities/booking.dart';
 import 'package:mini_court_book/features/facilities/data/data_sources/facility_local_data_source.dart';
 import 'package:mini_court_book/features/facilities/domain/entities/facility.dart';
 import 'package:mini_court_book/features/facilities/domain/repositories/facility_repository.dart';
@@ -46,9 +47,30 @@ class FacilityRepositoryImpl implements FacilityRepository {
   @override
   List<String> generateAllTimeSlots(String dailyOpen, String dailyClose) {
     try {
-      return facilityLocalDataSource.generateAllTimeSlots(dailyOpen,dailyClose);
+      return facilityLocalDataSource.generateAllTimeSlots(
+        dailyOpen,
+        dailyClose,
+      );
     } catch (e) {
       throw Exception('Failed to load slotd: $e');
+    }
+  }
+
+  @override
+  Future<List<Booking>> getAllBookings() {
+    try {
+      return facilityLocalDataSource.getAllBookings();
+    } catch (e) {
+      throw Exception('Failed to load bookings: $e');
+    }
+  }
+
+  @override
+  Future<bool> saveBooking(Booking booking) {
+    try {
+      return facilityLocalDataSource.saveBooking(booking);
+    } catch (e) {
+      throw Exception('Failed to save booking: $e');
     }
   }
 }

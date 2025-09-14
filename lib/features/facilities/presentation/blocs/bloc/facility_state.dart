@@ -120,3 +120,23 @@ class FacilityDetailsError extends FacilityState {
 
   const FacilityDetailsError(this.message);
 }
+
+class BookingCreating extends FacilityState {}
+
+class BookingCreated extends FacilityState {
+  final Booking booking;
+
+  const BookingCreated(this.booking);
+
+  @override
+  List<Object?> get props => [booking];
+}
+
+class BookingError extends FacilityState {
+  final String message;
+
+  const BookingError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

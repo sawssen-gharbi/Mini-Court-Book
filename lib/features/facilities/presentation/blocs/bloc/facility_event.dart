@@ -61,6 +61,10 @@ class LoadAvailableTimeSlots extends FacilityEvent {}
 
 class RefreshTimeSlots extends FacilityEvent {}
 
-class CreateBooking extends FacilityEvent {}
+class CreateBooking extends FacilityEvent {
+  final Booking booking;
+
+  const CreateBooking({required this.booking});
+}
 
 class ResetBookingForm extends FacilityEvent {}

@@ -5,11 +5,15 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mini_court_book/core/theme/app_palette.dart';
 import 'package:mini_court_book/core/theme/theme.dart';
+import 'package:mini_court_book/features/bookings/domain/entities/booking.dart';
 import 'package:mini_court_book/features/facilities/presentation/blocs/bloc/facility_bloc.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/booking_form_widget.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/booking_summary_widget.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/court_card_widget.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/facility_info_widget.dart';
+import 'package:mini_court_book/injection_container.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class FacilityDetailsScreen extends StatefulWidget {
   final String facilityId;
@@ -39,6 +43,9 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
           } else if (state is FacilityDetailsError) {
             return Text("No data");
           } else if (state is FacilityDetailsLoaded) {
+            print(
+              "sawssena ${serviceLocator<SharedPreferences>().getString("bookings")}",
+            );
             final currentState = state;
             final oneFacility = state.facility;
             return CustomScrollView(
@@ -284,11 +291,11 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                                         fontWeight: isSelected
                                                             ? FontWeight.bold
                                                             : FontWeight.normal,
-                                                       /*isAvailable
+
+                                                        /*isAvailable
                                     ? null
-                                    : */ 
-                                                           
-                                                    ),
+                                    : */
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -352,7 +359,35 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                       child: ElevatedButton(
                                         onPressed: () {
                                           context.read<FacilityBloc>().add(
-                                            CreateBooking(),
+                                            CreateBooking(
+                                              booking: Booking(
+                                                id: Uuid().v1(),
+                                                facilityId:
+                                                    currentState.facility.id,
+                                                facilityName:
+                                                    currentState.facility.name,
+                                                courtId: currentState
+                                                    .selectedCourt!
+                                                    .id,
+                                                courtLabel: currentState
+                                                    .selectedCourt!
+                                                    .label,
+                                                date:
+                                                    currentState.selectedDate!,
+                                                startTime:
+                                                    currentState.selectedTime!,
+                                                endTime: _calculateEndTime(
+                                                  state.selectedTime!,
+                                                  currentState
+                                                      .selectedCourt!
+                                                      .slotMinutes,
+                                                ),
+                                                price: currentState
+                                                    .selectedCourt!
+                                                    .price,
+                                                createdAt: DateTime.now(),
+                                              ),
+                                            ),
                                           );
                                         },
                                         style: ElevatedButton.styleFrom(

@@ -1,11 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jiffy/jiffy.dart';
+import 'package:mini_court_book/features/bookings/domain/entities/booking.dart';
 import 'package:mini_court_book/features/facilities/domain/entities/court.dart';
 import 'package:mini_court_book/features/facilities/domain/entities/facility.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/filter_facilities.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/generate_time_slots.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/get_facilities.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/get_one_facility.dart';
+import 'package:mini_court_book/features/facilities/domain/use_cases/save_booking.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/search_facilities.dart';
 
 part 'facility_event.dart';
@@ -17,12 +20,14 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
   final FilterFacilitiesUseCase filterFacilities;
   final GetOneFacilityUseCase getOneFacility;
   final GenerateTimeSlotsUseCase generateTimeSlots;
+  final SaveBookingUseCase saveBooking;
   FacilityBloc(
     this.getFacilities,
     this.searchFacilities,
     this.filterFacilities,
     this.getOneFacility,
     this.generateTimeSlots,
+    this.saveBooking,
   ) : super(FacilityInitial()) {
     on<LoadFacilities>(_onLoadFacilities);
     on<SearchFacilities>(_onSearchFacilities);
@@ -33,7 +38,7 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
     on<SelectTime>(_onSelectTime);
     on<LoadAvailableTimeSlots>(_onLoadAvailableTimeSlots);
     //on<RefreshTimeSlots>(_onRefreshTimeSlots);
-    //on<CreateBooking>(_onCreateBooking);
+    on<CreateBooking>(_onCreateBooking);
     //on<ResetBookingForm>(_onResetBookingForm);
   }
 
@@ -196,6 +201,42 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
     if (state is FacilityDetailsLoaded) {
       final currentState = state as FacilityDetailsLoaded;
       emit(currentState.copyWith(selectedTime: event.startTime));
+    }
+  }
+
+  Future<void> _onCreateBooking(
+    CreateBooking event,
+    Emitter<FacilityState> emit,
+  ) async {
+    if (state is FacilityDetailsLoaded) {
+      final currentState = state as FacilityDetailsLoaded;
+
+      if (!currentState.canCreateBooking) {
+        emit(const FacilityDetailsError('Please complete all booking details'));
+        await Future.delayed(const Duration(seconds: 2));
+        emit(currentState);
+        return;
+      }
+
+      emit(BookingCreating());
+
+      try {
+        final success = await saveBooking(event.booking);
+
+        print("sawssen is $success");
+
+        if (success) {
+          emit(BookingCreated(event.booking));
+        } else {
+          emit(const BookingError('Failed to save booking'));
+          await Future.delayed(const Duration(seconds: 2));
+          emit(currentState);
+        }
+      } catch (e) {
+        emit(BookingError(e.toString()));
+        await Future.delayed(const Duration(seconds: 2));
+        emit(currentState);
+      }
     }
   }
 }
