@@ -15,6 +15,7 @@ sealed class FacilityLocalDataSource {
   List<String> generateAllTimeSlots(String dailyOpen, String dailyClose);
   Future<List<Booking>> getAllBookings();
   Future<bool> saveBooking(Booking booking);
+  Future<bool> deleteBooking(String bookingId);
 }
 
 class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
@@ -140,6 +141,25 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
       );
     } catch (e) {
       print('Error saving booking: $e');
+      return false;
+    }
+  }
+
+  Future<bool> deleteBooking(String bookingId) async {
+    try {
+      final bookings = await getAllBookings();
+      bookings.removeWhere((booking) => booking.id == bookingId);
+
+      final String bookingsJson = json.encode(
+        bookings.map((b) => b.toJson()).toList(),
+      );
+
+      return await serviceLocator<SharedPreferences>().setString(
+        "bookings",
+        bookingsJson,
+      );
+    } catch (e) {
+      print('Error deleting booking: $e');
       return false;
     }
   }

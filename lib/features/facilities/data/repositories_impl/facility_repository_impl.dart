@@ -73,4 +73,13 @@ class FacilityRepositoryImpl implements FacilityRepository {
       throw Exception('Failed to save booking: $e');
     }
   }
+
+  @override
+  Future<bool> deleteBooking(String bookingId) {
+    try {
+      return facilityLocalDataSource.deleteBooking(bookingId);
+    } catch (e) {
+      throw Exception('Failed to delete booking: $e');
+    }
+  }
 }

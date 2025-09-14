@@ -37,9 +37,8 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
     on<SelectDate>(_onSelectDate);
     on<SelectTime>(_onSelectTime);
     on<LoadAvailableTimeSlots>(_onLoadAvailableTimeSlots);
-    //on<RefreshTimeSlots>(_onRefreshTimeSlots);
     on<CreateBooking>(_onCreateBooking);
-    //on<ResetBookingForm>(_onResetBookingForm);
+
   }
 
   Future<void> _onLoadFacilities(
@@ -223,7 +222,7 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
       try {
         final success = await saveBooking(event.booking);
 
-        print("sawssen is $success");
+   
 
         if (success) {
           emit(BookingCreated(event.booking));

@@ -1,7 +1,9 @@
 import 'package:get_it/get_it.dart';
+import 'package:mini_court_book/features/bookings/presentation/blocs/bloc/my_booking_bloc.dart';
 import 'package:mini_court_book/features/facilities/data/data_sources/facility_local_data_source.dart';
 import 'package:mini_court_book/features/facilities/data/repositories_impl/facility_repository_impl.dart';
 import 'package:mini_court_book/features/facilities/domain/repositories/facility_repository.dart';
+import 'package:mini_court_book/features/facilities/domain/use_cases/delete_booking.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/filter_facilities.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/generate_time_slots.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/get_bookings.dart';
@@ -25,6 +27,9 @@ Future<void> initDependencies() async {
       serviceLocator(),
       serviceLocator(),
     ),
+  );
+  serviceLocator.registerFactory<MyBookingBloc>(
+    () => MyBookingBloc(serviceLocator(), serviceLocator()),
   );
 
   //Repositories
@@ -64,6 +69,9 @@ Future<void> initDependencies() async {
 
   serviceLocator.registerLazySingleton(
     () => SaveBookingUseCase(facilityRepository: serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton(
+    () => DeleteBookingUseCase(facilityRepository: serviceLocator()),
   );
 
   //External

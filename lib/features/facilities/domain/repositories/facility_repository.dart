@@ -9,4 +9,5 @@ abstract class FacilityRepository {
   List<String> generateAllTimeSlots(String dailyOpen, String dailyClose);
   Future<List<Booking>> getAllBookings();
   Future<bool> saveBooking(Booking booking);
+  Future<bool> deleteBooking(String bookingId);
 }

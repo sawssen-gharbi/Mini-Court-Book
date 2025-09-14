@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_court_book/core/theme/app_palette.dart';
+import 'package:mini_court_book/features/bookings/presentation/pages/my_bookings_screen.dart';
 import 'package:mini_court_book/features/facilities/presentation/pages/facilities_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  static const List<Widget> _pages = [FacilitiesScreen()];
+  static const List<Widget> _pages = [FacilitiesScreen(), MyBookingsScreen()];
 
   @override
   Widget build(BuildContext context) {

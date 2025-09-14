@@ -36,7 +36,25 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<FacilityBloc, FacilityState>(
+      body: BlocConsumer<FacilityBloc, FacilityState>(
+        listener: (context, state) {
+          if (state is BookingError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          } else if (state is BookingCreated) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Booking created successfully!'),
+                backgroundColor: Colors.green,
+              ),
+            );
+            Navigator.pop(context, true);
+          }
+        },
         builder: (context, state) {
           if (state is FacilityDetailsLoading) {
             return CircularProgressIndicator(color: Colors.black);
