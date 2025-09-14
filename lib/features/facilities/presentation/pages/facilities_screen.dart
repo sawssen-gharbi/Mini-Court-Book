@@ -39,6 +39,109 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
             onChanged: (value) {
               context.read<FacilityBloc>().add(SearchFacilities(value));
             },
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return SafeArea(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          title: const Text(
+                            'Filter Options',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.close),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ),
+
+                        ListTile(
+                          leading: const Icon(Icons.location_city),
+                          title: const Text('Filter by City'),
+                          onTap: () {
+                            Navigator.pop(context);
+                            final state = context.read<FacilityBloc>().state;
+
+                            if (state is FacilitiesLoaded) {
+                              final cities = state.facilities
+                                  .map((f) => f.city)
+                                  .toSet()
+                                  .toList();
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (context) {
+                                  return SafeArea(
+                                    child: DraggableScrollableSheet(
+                                      initialChildSize: 0.6,
+                                      minChildSize: 0.3,
+                                      maxChildSize: 0.9,
+                                      expand: false,
+                                      builder: (context, scrollController) {
+                                        return Column(
+                                          children: [
+                                            const ListTile(
+                                              title: Text(
+                                                'Select City',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            const Divider(),
+                                            Expanded(
+                                              child: ListView.builder(
+                                                controller: scrollController,
+                                                itemCount: cities.length,
+                                                itemBuilder: (context, index) {
+                                                  final city = cities[index];
+                                                  return ListTile(
+                                                    title: Text(city),
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                      context
+                                                          .read<FacilityBloc>()
+                                                          .add(
+                                                            FilterFacilities(
+                                                              city,
+                                                            ),
+                                                          );
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          },
+                        ),
+
+                        const Divider(),
+                        ListTile(
+                          leading: const Icon(Icons.clear),
+                          title: const Text('Clear Filter'),
+                          onTap: () {
+                            Navigator.pop(context);
+                            context.read<FacilityBloc>().add(
+                              FilterFacilities(""),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
           ),
           Expanded(
             child: BlocBuilder<FacilityBloc, FacilityState>(

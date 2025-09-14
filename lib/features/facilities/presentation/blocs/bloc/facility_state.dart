@@ -4,7 +4,7 @@ class FacilityState extends Equatable {
   const FacilityState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 final class FacilityInitial extends FacilityState {}
@@ -33,17 +33,17 @@ class FacilitiesLoaded extends FacilityState {
     return FacilitiesLoaded(
       facilities: facilities ?? this.facilities,
       filteredFacilities: filteredFacilities ?? this.filteredFacilities,
-      searchText: searchText ?? this.searchText,
-      cityFilter: cityFilter ?? this.cityFilter,
+      searchText: searchText,
+      cityFilter: cityFilter,
     );
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
     facilities,
     filteredFacilities,
-    searchText!,
-    cityFilter!,
+    searchText,
+    cityFilter,
   ];
 }
 

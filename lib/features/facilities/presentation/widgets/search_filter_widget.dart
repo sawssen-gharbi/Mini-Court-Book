@@ -6,10 +6,12 @@ import 'package:mini_court_book/core/theme/app_palette.dart';
 class SearchFilterWidget extends StatelessWidget {
   final TextEditingController controller;
   final Function(String)? onChanged;
+  final VoidCallback? onPressed;
   const SearchFilterWidget({
     super.key,
     required this.controller,
     this.onChanged,
+    this.onPressed,
   });
 
   @override
@@ -21,6 +23,7 @@ class SearchFilterWidget extends StatelessWidget {
           Expanded(
             child: TextField(
               controller: controller,
+              autocorrect: false,
               decoration: InputDecoration(
                 hintText: 'Search facilities...',
                 prefixIcon: const Icon(
@@ -42,7 +45,11 @@ class SearchFilterWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Icon(Icons.tune_rounded, color: AppPalette.primaryColor),
+          IconButton(
+            onPressed: onPressed,
+            icon: Icon(Icons.tune_rounded),
+            color: AppPalette.primaryColor,
+          ),
         ],
       ),
     );
