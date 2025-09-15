@@ -5,6 +5,7 @@ import 'package:mini_court_book/features/bookings/domain/entities/booking.dart';
 import 'package:mini_court_book/features/facilities/domain/entities/court.dart';
 import 'package:mini_court_book/features/facilities/domain/entities/facility.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/filter_facilities.dart';
+import 'package:mini_court_book/features/facilities/domain/use_cases/generate_available_time_slots.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/generate_time_slots.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/get_facilities.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/get_one_facility.dart';
@@ -21,6 +22,7 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
   final GetOneFacilityUseCase getOneFacility;
   final GenerateTimeSlotsUseCase generateTimeSlots;
   final SaveBookingUseCase saveBooking;
+  final GenerateAvailableTimeSlotsUseCase generateAvailableTimeSlots;
   FacilityBloc(
     this.getFacilities,
     this.searchFacilities,
@@ -28,6 +30,7 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
     this.getOneFacility,
     this.generateTimeSlots,
     this.saveBooking,
+    this.generateAvailableTimeSlots,
   ) : super(FacilityInitial()) {
     on<LoadFacilities>(_onLoadFacilities);
     on<SearchFacilities>(_onSearchFacilities);
@@ -38,7 +41,6 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
     on<SelectTime>(_onSelectTime);
     on<LoadAvailableTimeSlots>(_onLoadAvailableTimeSlots);
     on<CreateBooking>(_onCreateBooking);
-
   }
 
   Future<void> _onLoadFacilities(
@@ -181,9 +183,16 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
           currentState.selectedCourt!.dailyClose,
         );
 
+        final availablesTimeSlots = await generateAvailableTimeSlots(
+          courtId: currentState.selectedCourt!.id,
+          date: currentState.selectedDate!,
+          court: currentState.selectedCourt!,
+        );
+
         emit(
           currentState.copyWith(
             allTimeSlots: await allSlots,
+            availableTimeSlots: availablesTimeSlots,
             isLoadingSlots: false,
           ),
         );
@@ -221,8 +230,6 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
 
       try {
         final success = await saveBooking(event.booking);
-
-   
 
         if (success) {
           emit(BookingCreated(event.booking));

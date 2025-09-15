@@ -1,5 +1,6 @@
 import 'package:mini_court_book/features/bookings/domain/entities/booking.dart';
 import 'package:mini_court_book/features/facilities/data/data_sources/facility_local_data_source.dart';
+import 'package:mini_court_book/features/facilities/domain/entities/court.dart';
 import 'package:mini_court_book/features/facilities/domain/entities/facility.dart';
 import 'package:mini_court_book/features/facilities/domain/repositories/facility_repository.dart';
 
@@ -80,6 +81,23 @@ class FacilityRepositoryImpl implements FacilityRepository {
       return facilityLocalDataSource.deleteBooking(bookingId);
     } catch (e) {
       throw Exception('Failed to delete booking: $e');
+    }
+  }
+
+  @override
+  Future<List<String>> getAvailableTimeSlotsForCourt({
+    required String courtId,
+    required DateTime date,
+    required Court court,
+  }) async {
+    try {
+      return facilityLocalDataSource.getAvailableTimeSlotsForCourt(
+        courtId: courtId,
+        date: date,
+        court: court,
+      );
+    } catch (e) {
+      throw Exception('Failed to load available slots: $e');
     }
   }
 }

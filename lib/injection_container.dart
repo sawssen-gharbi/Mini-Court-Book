@@ -5,6 +5,7 @@ import 'package:mini_court_book/features/facilities/data/repositories_impl/facil
 import 'package:mini_court_book/features/facilities/domain/repositories/facility_repository.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/delete_booking.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/filter_facilities.dart';
+import 'package:mini_court_book/features/facilities/domain/use_cases/generate_available_time_slots.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/generate_time_slots.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/get_bookings.dart';
 import 'package:mini_court_book/features/facilities/domain/use_cases/get_facilities.dart';
@@ -20,6 +21,7 @@ Future<void> initDependencies() async {
   //Blocs
   serviceLocator.registerFactory<FacilityBloc>(
     () => FacilityBloc(
+      serviceLocator(),
       serviceLocator(),
       serviceLocator(),
       serviceLocator(),
@@ -72,6 +74,11 @@ Future<void> initDependencies() async {
   );
   serviceLocator.registerLazySingleton(
     () => DeleteBookingUseCase(facilityRepository: serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () =>
+        GenerateAvailableTimeSlotsUseCase(facilityRepository: serviceLocator()),
   );
 
   //External

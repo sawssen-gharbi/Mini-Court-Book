@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mini_court_book/features/bookings/domain/entities/booking.dart';
+import 'package:mini_court_book/features/facilities/domain/entities/court.dart';
 import 'package:mini_court_book/features/facilities/domain/entities/facility.dart';
 import 'package:mini_court_book/injection_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,11 @@ sealed class FacilityLocalDataSource {
   Future<List<Booking>> getAllBookings();
   Future<bool> saveBooking(Booking booking);
   Future<bool> deleteBooking(String bookingId);
+  Future<List<String>> getAvailableTimeSlotsForCourt({
+    required String courtId,
+    required DateTime date,
+    required Court court,
+  });
 }
 
 class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
@@ -145,6 +151,7 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
     }
   }
 
+  @override
   Future<bool> deleteBooking(String bookingId) async {
     try {
       final bookings = await getAllBookings();
@@ -164,6 +171,52 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
     }
   }
 
+  @override
+  Future<List<String>> getAvailableTimeSlotsForCourt({
+    required String courtId,
+    required DateTime date,
+    required Court court,
+  }) async {
+    try {
+      final allBookings = await getAllBookings();
+
+      final existingBookings = allBookings.where((booking) {
+        return booking.courtId == courtId &&
+            booking.date.year == date.year &&
+            booking.date.month == date.month &&
+            booking.date.day == date.day;
+      }).toList();
+
+      final allSlots = generateAllTimeSlots(court.dailyOpen, court.dailyClose);
+      final availableSlots = <String>[];
+
+      for (final slot in allSlots) {
+        final start = _parseTime(slot);
+        final end = _parseTime(_calculateEndTime(slot, court.slotMinutes));
+
+        bool overlaps = false;
+        for (final booking in existingBookings) {
+          final existingStart = _parseTime(booking.startTime);
+          final existingEnd = _parseTime(booking.endTime);
+
+          if (start.isBefore(existingEnd) && existingStart.isBefore(end)) {
+            overlaps = true;
+            break;
+          }
+        }
+
+        if (!overlaps) {
+          availableSlots.add(slot);
+        }
+      }
+
+      return availableSlots;
+    } catch (e) {
+      print('Error getting available slots: $e');
+      return [];
+    }
+  }
+
   DateTime _parseTime(String time) {
     final now = DateTime.now();
     final jiffy = Jiffy.parse(time, pattern: "HH:mm");
@@ -178,5 +231,13 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
 
   String _formatTime(DateTime time) {
     return Jiffy.parseFromDateTime(time).format(pattern: "HH:mm");
+  }
+
+  String _calculateEndTime(String startTime, int durationMinutes) {
+    final start = Jiffy.parse(startTime, pattern: "HH:mm");
+
+    final end = start.add(minutes: durationMinutes);
+
+    return Jiffy.parseFromJiffy(end).format(pattern: "HH:mm");
   }
 }

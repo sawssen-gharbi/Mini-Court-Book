@@ -61,9 +61,6 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
           } else if (state is FacilityDetailsError) {
             return Text("No data");
           } else if (state is FacilityDetailsLoaded) {
-            print(
-              "sawssena ${serviceLocator<SharedPreferences>().getString("bookings")}",
-            );
             final currentState = state;
             final oneFacility = state.facility;
             return CustomScrollView(
@@ -263,6 +260,10 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                             itemBuilder: (context, index) {
                                               final time =
                                                   state.allTimeSlots[index];
+                                              final isAvailable = state
+                                                  .availableTimeSlots
+                                                  .contains(time);
+
                                               final isSelected =
                                                   state.selectedTime == time;
 
@@ -280,19 +281,17 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                                         ? Theme.of(
                                                             context,
                                                           ).primaryColor
-                                                        /* : isAvailable
-                                ? Colors.grey[200]
-                                : */
+                                                        : isAvailable
+                                                        ? Colors.grey[200]
                                                         : Colors.grey[100],
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                           8,
                                                         ),
                                                     border: Border.all(
-                                                      color: /*isAvailable
-                                  ? Colors.transparent
-                                  :*/
-                                                          Colors.grey[300]!,
+                                                      color: isAvailable
+                                                          ? Colors.transparent
+                                                          : Colors.grey[300]!,
                                                       width: 1,
                                                     ),
                                                   ),
@@ -302,17 +301,17 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                                       style: TextStyle(
                                                         color: isSelected
                                                             ? Colors.white
-                                                            :
-                                                              /* : isAvailable
-                                    ? Colors.black87*/
-                                                              Colors.black,
+                                                            : isAvailable
+                                                            ? Colors.black87
+                                                            : Colors.black,
                                                         fontWeight: isSelected
                                                             ? FontWeight.bold
                                                             : FontWeight.normal,
 
-                                                        /*isAvailable
-                                    ? null
-                                    : */
+                                                        decoration: isAvailable
+                                                            ? null
+                                                            : TextDecoration
+                                                                  .lineThrough,
                                                       ),
                                                     ),
                                                   ),

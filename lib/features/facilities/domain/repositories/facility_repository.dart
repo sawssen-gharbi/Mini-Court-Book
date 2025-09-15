@@ -1,4 +1,5 @@
 import 'package:mini_court_book/features/bookings/domain/entities/booking.dart';
+import 'package:mini_court_book/features/facilities/domain/entities/court.dart';
 import 'package:mini_court_book/features/facilities/domain/entities/facility.dart';
 
 abstract class FacilityRepository {
@@ -10,4 +11,9 @@ abstract class FacilityRepository {
   Future<List<Booking>> getAllBookings();
   Future<bool> saveBooking(Booking booking);
   Future<bool> deleteBooking(String bookingId);
+  Future<List<String>> getAvailableTimeSlotsForCourt({
+    required String courtId,
+    required DateTime date,
+    required Court court,
+  });
 }
