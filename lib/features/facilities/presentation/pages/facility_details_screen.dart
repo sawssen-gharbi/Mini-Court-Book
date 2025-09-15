@@ -2,19 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
+
 import 'package:jiffy/jiffy.dart';
 import 'package:mini_court_book/core/theme/app_palette.dart';
 import 'package:mini_court_book/core/theme/theme.dart';
 import 'package:mini_court_book/features/bookings/domain/entities/booking.dart';
 import 'package:mini_court_book/features/bookings/presentation/blocs/bloc/my_booking_bloc.dart';
 import 'package:mini_court_book/features/facilities/presentation/blocs/bloc/facility_bloc.dart';
-import 'package:mini_court_book/features/facilities/presentation/widgets/booking_form_widget.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/booking_summary_widget.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/court_card_widget.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/facility_info_widget.dart';
-import 'package:mini_court_book/injection_container.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:uuid/uuid.dart';
 
 class FacilityDetailsScreen extends StatefulWidget {
@@ -76,7 +74,14 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
               controller: _scrollController,
               slivers: [
                 SliverAppBar(
-                  title: Text(widget.facilityName),
+                  title: Text(
+                    widget.facilityName,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
                   expandedHeight: 250.h,
                   pinned: true,
                   flexibleSpace: FlexibleSpaceBar(
@@ -103,7 +108,11 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                           children: [
                             Text(
                               'Available Courts',
-                              style: Theme.of(context).textTheme.headlineSmall,
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
+                                color: AppPalette.primaryColor,
+                              ),
                             ),
                             SizedBox(height: 12.h),
                             ...state.facility.courts.map(
@@ -129,20 +138,22 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                 children: [
                                   Text(
                                     "Book ${state.selectedCourt!.label}",
-                                    style:
-                                        AppTheme.theme.textTheme.headlineSmall,
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppPalette.primaryColor,
+                                    ),
                                   ),
-                                  const SizedBox(height: 16),
+                                  SizedBox(height: 16.h),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Select Date',
-                                        style: AppTheme
-                                            .theme
-                                            .textTheme
-                                            .titleMedium,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.titleMedium,
                                       ),
                                       SizedBox(height: 8.h),
                                       InkWell(
@@ -174,7 +185,7 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                           ),
                                           decoration: BoxDecoration(
                                             border: Border.all(
-                                              color: Colors.grey[300]!,
+                                              color: AppPalette.greyColor[300]!,
                                             ),
                                             borderRadius: BorderRadius.circular(
                                               8,
@@ -217,12 +228,12 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+                                        SizedBox(height: 10.h),
                                         Text(
                                           'Select Time',
-                                          style: AppTheme
-                                              .theme
-                                              .textTheme
-                                              .titleMedium,
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium,
                                         ),
                                         if (state.isLoadingSlots) ...[
                                           const Center(
@@ -288,9 +299,8 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                     color: isSelected
-                                                        ? Theme.of(
-                                                            context,
-                                                          ).primaryColor
+                                                        ? AppPalette
+                                                              .primaryColor
                                                         : isAvailable
                                                         ? AppPalette
                                                               .greyColor[200]
@@ -350,12 +360,11 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                         children: [
                                           Text(
                                             'Booking Summary',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium
-                                                ?.copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                            style: TextStyle(
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppPalette.primaryColor,
+                                            ),
                                           ),
                                           SizedBox(height: 8.h),
 
@@ -420,16 +429,19 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                           );
                                         },
                                         style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              AppPalette.primaryColor,
                                           padding: EdgeInsets.symmetric(
                                             vertical: 16.h,
                                           ),
                                         ),
                                         child: Text(
-                                          'Confirm Booking',
-                                          style: AppTheme
-                                              .theme
-                                              .textTheme
-                                              .bodyMedium,
+                                          'CONFIRM BOOKING',
+                                          style: TextStyle(
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppPalette.surfaceColor,
+                                          ),
                                         ),
                                       ),
                                     ),

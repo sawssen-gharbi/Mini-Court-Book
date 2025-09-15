@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:mini_court_book/core/theme/app_palette.dart';
 import 'package:mini_court_book/core/theme/theme.dart';
@@ -23,7 +24,13 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Bookings'), elevation: 0),
+      appBar: AppBar(
+        title: Text(
+          'My Bookings',
+          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+        ),
+        elevation: 0,
+      ),
       body: BlocConsumer<MyBookingBloc, MyBookingState>(
         listener: (context, state) {
           if (state is BookingDeleted) {
@@ -64,14 +71,17 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Facility name
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: Text(
                                     booking.facilityName,
-                                    style: AppTheme.theme.textTheme.bodyMedium,
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -92,18 +102,20 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
                                 Icon(
                                   Icons.calendar_today,
                                   size: 16,
-                                  color: Colors.grey[600],
+                                  color: AppPalette.greyColor[600],
                                 ),
-                                const SizedBox(width: 4),
+                                SizedBox(width: 4.w),
                                 Text(
                                   DateFormat(
                                     'EEEE, MMM d, yyyy',
                                   ).format(booking.date),
-                                  style: TextStyle(color: Colors.grey[700]),
+                                  style: TextStyle(
+                                    color: AppPalette.greyColor[700],
+                                  ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 4),
+                            SizedBox(height: 4.h),
 
                             // Time
                             Row(
@@ -111,16 +123,18 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
                                 Icon(
                                   Icons.access_time,
                                   size: 16,
-                                  color: Colors.grey[600],
+                                  color: AppPalette.greyColor[600],
                                 ),
-                                const SizedBox(width: 4),
+                                SizedBox(width: 4.w),
                                 Text(
                                   "${booking.startTime} - ${booking.endTime}",
-                                  style: TextStyle(color: Colors.grey[700]),
+                                  style: TextStyle(
+                                    color: AppPalette.greyColor[700],
+                                  ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
 
                             // Price + Cancel button
                             Row(
@@ -128,11 +142,11 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
                               children: [
                                 Text(
                                   "${booking.price.toStringAsFixed(0)} TND",
-                                  style: Theme.of(context).textTheme.titleMedium
-                                      ?.copyWith(
-                                        color: Theme.of(context).primaryColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppPalette.primaryColor,
+                                  ),
                                 ),
                                 TextButton.icon(
                                   onPressed: () {
@@ -140,15 +154,19 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
-                                          title: const Text('Cancel Booking'),
                                           content: Text(
+                                            style: TextStyle(
+                                              fontSize: 18.sp,
+
+                                              color: Colors.black,
+                                            ),
                                             "Are you sure you want to cancel ${booking.facilityName}?",
                                           ),
                                           actions: [
                                             TextButton(
                                               onPressed: () =>
                                                   Navigator.pop(context),
-                                              child: const Text('Keep Booking'),
+                                              child: const Text('KEEP BOOKING'),
                                             ),
                                             ElevatedButton(
                                               onPressed: () {
@@ -169,7 +187,7 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
                                                   color: AppPalette
                                                       .textPrimaryColor,
                                                 ),
-                                                'Cancel Booking',
+                                                'CANCEL',
                                               ),
                                             ),
                                           ],

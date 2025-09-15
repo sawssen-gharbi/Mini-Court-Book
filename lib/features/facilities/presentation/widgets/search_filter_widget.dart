@@ -34,6 +34,7 @@ class SearchFilterWidget extends StatelessWidget {
 
               decoration: InputDecoration(
                 hintText: 'Search facilities...',
+
                 prefixIcon: const Icon(
                   Icons.search,
                   color: AppPalette.primaryColor,

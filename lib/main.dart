@@ -7,10 +7,13 @@ import 'package:mini_court_book/features/bookings/presentation/blocs/bloc/my_boo
 import 'package:mini_court_book/features/facilities/presentation/blocs/bloc/facility_bloc.dart';
 import 'package:mini_court_book/features/facilities/presentation/pages/home_screen.dart';
 import 'package:mini_court_book/injection_container.dart';
+import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initDependencies();
+  await di.initDependencies();
+  await di.serviceLocator.allReady();
+
   runApp(DevicePreview(enabled: false, builder: (context) => MyApp()));
 }
 

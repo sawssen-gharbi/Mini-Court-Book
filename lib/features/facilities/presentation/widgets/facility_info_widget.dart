@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mini_court_book/core/theme/app_palette.dart';
 
 class FacilityInfoCardWidget extends StatelessWidget {
   final String city;
@@ -19,12 +21,16 @@ class FacilityInfoCardWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(Icons.location_on, size: 20),
-                const SizedBox(width: 8),
-                Text(city, style: const TextStyle(fontSize: 16)),
+                const Icon(
+                  Icons.location_on,
+                  size: 20,
+                  color: AppPalette.primaryColor,
+                ),
+                SizedBox(width: 8.w),
+                Text(city, style: Theme.of(context).textTheme.bodyLarge),
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Wrap(
               spacing: 8,
               children: sports
@@ -32,12 +38,13 @@ class FacilityInfoCardWidget extends StatelessWidget {
                     (sport) => Chip(
                       label: Text(
                         sport.toUpperCase(),
-                        style: const TextStyle(
+                        style: TextStyle(
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                         ),
                       ),
-                      backgroundColor: Theme.of(context).primaryColor,
+                      backgroundColor: AppPalette.primaryColor,
                     ),
                   )
                   .toList(),

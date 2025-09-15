@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mini_court_book/core/theme/app_palette.dart';
 import 'package:mini_court_book/features/facilities/domain/entities/court.dart';
 
 class CourtCardWidget extends StatelessWidget {
   final Court court;
   final Court? selectedCourt;
   final VoidCallback onTap;
-  const CourtCardWidget({super.key, required this.court, required this.onTap, this.selectedCourt});
+  const CourtCardWidget({
+    super.key,
+    required this.court,
+    required this.onTap,
+    this.selectedCourt,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +23,7 @@ class CourtCardWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: isSelected
-            ? BorderSide(color: Theme.of(context).primaryColor, width: 2)
+            ? BorderSide(color: AppPalette.primaryColor, width: 2.w)
             : BorderSide.none,
       ),
       child: InkWell(
@@ -29,10 +36,10 @@ class CourtCardWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
+                  color: AppPalette.primaryColor.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.abc, color: Theme.of(context).primaryColor),
+                child: Icon(Icons.abc, color: AppPalette.primaryColor),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -41,21 +48,29 @@ class CourtCardWidget extends StatelessWidget {
                   children: [
                     Text(
                       court.label,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Text(
                       court.sport.toUpperCase(),
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppPalette.greyColor,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       '${court.dailyOpen} - ${court.dailyClose}',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppPalette.greyColor,
+                      ),
                     ),
                   ],
                 ),
@@ -65,16 +80,19 @@ class CourtCardWidget extends StatelessWidget {
                 children: [
                   Text(
                     '${court.price.toStringAsFixed(0)} TND',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context).primaryColor,
+                    style: TextStyle(
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
+                      color: AppPalette.primaryColor,
                     ),
                   ),
                   Text(
                     '/${court.slotMinutes} min',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppPalette.greyColor,
+                    ),
                   ),
                 ],
               ),

@@ -62,46 +62,5 @@ class AppTheme {
       ),
       contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
     ),
-    textTheme: TextTheme(
-      headlineLarge: TextStyle(
-        fontSize: 28.sp,
-        fontWeight: FontWeight.bold,
-        color: AppPalette.textPrimaryColor,
-      ),
-      headlineMedium: TextStyle(
-        fontSize: 24.sp,
-        fontWeight: FontWeight.bold,
-        color: AppPalette.textPrimaryColor,
-      ),
-      headlineSmall: TextStyle(
-        fontSize: 20.sp,
-        fontWeight: FontWeight.w600,
-        color: AppPalette.textPrimaryColor,
-      ),
-      titleLarge: TextStyle(
-        fontSize: 18.sp,
-        fontWeight: FontWeight.w600,
-        color: AppPalette.textPrimaryColor,
-      ),
-      titleMedium: TextStyle(
-        fontSize: 16.sp,
-        fontWeight: FontWeight.w500,
-        color: AppPalette.textPrimaryColor,
-      ),
-      bodyLarge: TextStyle(
-        fontSize: 20.sp,
-        color: AppPalette.textPrimaryColor,
-        fontWeight: FontWeight.bold,
-      ),
-      bodyMedium: TextStyle(
-        fontSize: 14.sp,
-        color: AppPalette.textPrimaryColor,
-      ),
-      labelLarge: TextStyle(
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w500,
-        color: AppPalette.textPrimaryColor,
-      ),
-    ),
   );
 }

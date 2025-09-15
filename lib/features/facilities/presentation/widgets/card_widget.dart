@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mini_court_book/core/theme/app_palette.dart';
-import 'package:mini_court_book/core/theme/theme.dart';
 
 class CardWidget extends StatelessWidget {
   final String facilityImage;
@@ -60,7 +59,14 @@ class CardWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(facilityName, style: AppTheme.theme.textTheme.bodyLarge),
+                  Text(
+                    facilityName,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
                   SizedBox(height: 4.h),
                   Row(
                     children: [
@@ -72,7 +78,7 @@ class CardWidget extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         cityName,
-                        style: AppTheme.theme.textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
                   ),
@@ -83,14 +89,14 @@ class CardWidget extends StatelessWidget {
                         .map(
                           (sport) => Chip(
                             label: Text(
-                              sport,
-                              style: const TextStyle(
-                                fontSize: 12,
+                              sport.toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 12.sp,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
                             ),
-                            backgroundColor: AppTheme.theme.primaryColor,
+                            backgroundColor: AppPalette.primaryColor,
                             padding: const EdgeInsets.all(4),
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
@@ -104,12 +110,12 @@ class CardWidget extends StatelessWidget {
                     children: [
                       Text(
                         '$courtsNumber courts available',
-                        style: AppTheme.theme.textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       Icon(
                         Icons.remove_red_eye,
                         size: 16,
-                        color: AppTheme.theme.primaryColor,
+                        color: AppPalette.primaryColor,
                       ),
                     ],
                   ),

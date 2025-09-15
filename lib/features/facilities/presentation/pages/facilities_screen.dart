@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mini_court_book/core/theme/app_palette.dart';
-import 'package:mini_court_book/core/theme/theme.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mini_court_book/features/facilities/presentation/pages/facility_details_screen.dart';
 import 'package:mini_court_book/features/facilities/presentation/blocs/bloc/facility_bloc.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/card_widget.dart';
@@ -43,7 +42,12 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(title: Text("Mini Court Book")),
+      appBar: AppBar(
+        title: Text(
+          "Mini Court Book",
+          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -65,7 +69,11 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                         ListTile(
                           title: Text(
                             'Filter Options',
-                            style: AppTheme.theme.textTheme.bodyLarge,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                           trailing: IconButton(
                             icon: const Icon(Icons.close),
@@ -77,7 +85,7 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                           leading: const Icon(Icons.location_city),
                           title: Text(
                             'Filter by City',
-                            style: AppTheme.theme.textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           onTap: () {
                             Navigator.pop(context);
@@ -104,10 +112,11 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                                             ListTile(
                                               title: Text(
                                                 'Select City',
-                                                style: AppTheme
-                                                    .theme
-                                                    .textTheme
-                                                    .titleMedium,
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
                                               ),
                                             ),
                                             const Divider(),
@@ -120,10 +129,9 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                                                   return ListTile(
                                                     title: Text(
                                                       city,
-                                                      style: AppTheme
-                                                          .theme
-                                                          .textTheme
-                                                          .titleMedium,
+                                                      style: Theme.of(
+                                                        context,
+                                                      ).textTheme.bodyMedium,
                                                     ),
                                                     onTap: () {
                                                       Navigator.pop(context);
@@ -157,7 +165,7 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                           ),
                           title: Text(
                             'Clear Filter',
-                            style: AppTheme.theme.textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           onTap: () {
                             Navigator.pop(context);
