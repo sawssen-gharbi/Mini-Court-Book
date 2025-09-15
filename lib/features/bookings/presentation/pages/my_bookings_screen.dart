@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:mini_court_book/features/bookings/domain/entities/booking.dart';
+import 'package:mini_court_book/core/theme/app_palette.dart';
+import 'package:mini_court_book/core/theme/theme.dart';
 import 'package:mini_court_book/features/bookings/presentation/blocs/bloc/my_booking_bloc.dart';
+import 'package:mini_court_book/features/facilities/presentation/widgets/empty_state_widget.dart';
 
 class MyBookingsScreen extends StatefulWidget {
   const MyBookingsScreen({super.key});
@@ -34,17 +36,24 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
           }
         },
         builder: (context, state) {
+          if (state is MyBookingsEmpty) {
+            return EmptyStateWidget(
+              icon: Icons.calendar_today_outlined,
+              title: state.message,
+              subtitle: 'Start by browsing available facilities',
+            );
+          }
           if (state is MyBookingsLoading) {
           } else if (state is MyBookingsLoaded) {
             return RefreshIndicator(
               onRefresh: () async {
-                context.read<MyBookingBloc>().add(RefreshMyBookings());
+                context.read<MyBookingBloc>().add(LoadMyBookings());
               },
               child: ListView.builder(
                 padding: const EdgeInsets.all(16),
                 itemCount: state.bookings.length,
                 itemBuilder: (context, index) {
-                  final booking = state.bookings[index]; // ✅ Get booking
+                  final booking = state.bookings[index];
 
                   return Card(
                     margin: const EdgeInsets.only(bottom: 12),
@@ -62,10 +71,7 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
                                 Expanded(
                                   child: Text(
                                     booking.facilityName,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                    style: AppTheme.theme.textTheme.bodyMedium,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -159,6 +165,10 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
                                                 backgroundColor: Colors.red,
                                               ),
                                               child: const Text(
+                                                style: TextStyle(
+                                                  color: AppPalette
+                                                      .textPrimaryColor,
+                                                ),
                                                 'Cancel Booking',
                                               ),
                                             ),

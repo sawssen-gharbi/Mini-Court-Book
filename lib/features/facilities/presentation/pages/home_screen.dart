@@ -26,9 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: _pages[_selectedIndex],
+      resizeToAvoidBottomInset: false,
+      body: IndexedStack(index: _selectedIndex, children: _pages),
+
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: AppPalette.backgroundColor,
+        elevation: 0,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.sports_score),

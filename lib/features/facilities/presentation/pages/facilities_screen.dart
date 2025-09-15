@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mini_court_book/core/theme/app_palette.dart';
+import 'package:mini_court_book/core/theme/theme.dart';
 import 'package:mini_court_book/features/facilities/presentation/pages/facility_details_screen.dart';
 import 'package:mini_court_book/features/facilities/presentation/blocs/bloc/facility_bloc.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/card_widget.dart';
+import 'package:mini_court_book/features/facilities/presentation/widgets/empty_state_widget.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/search_filter_widget.dart';
 
 class FacilitiesScreen extends StatefulWidget {
@@ -15,11 +18,18 @@ class FacilitiesScreen extends StatefulWidget {
 class _FacilitiesScreenState extends State<FacilitiesScreen> {
   //var
   final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
 
   //func
   @override
   void initState() {
     super.initState();
+    context.read<FacilityBloc>().add(LoadFacilities());
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
     context.read<FacilityBloc>().add(LoadFacilities());
   }
 
@@ -32,15 +42,19 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(title: Text("Mini Court Book")),
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           SearchFilterWidget(
+            focusNode: _searchFocusNode,
             controller: _searchController,
             onChanged: (value) {
               context.read<FacilityBloc>().add(SearchFacilities(value));
             },
             onPressed: () {
+              _searchFocusNode.unfocus();
               showModalBottomSheet(
                 context: context,
                 builder: (context) {
@@ -49,9 +63,9 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         ListTile(
-                          title: const Text(
+                          title: Text(
                             'Filter Options',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: AppTheme.theme.textTheme.bodyLarge,
                           ),
                           trailing: IconButton(
                             icon: const Icon(Icons.close),
@@ -61,7 +75,10 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
 
                         ListTile(
                           leading: const Icon(Icons.location_city),
-                          title: const Text('Filter by City'),
+                          title: Text(
+                            'Filter by City',
+                            style: AppTheme.theme.textTheme.titleMedium,
+                          ),
                           onTap: () {
                             Navigator.pop(context);
                             final state = context.read<FacilityBloc>().state;
@@ -84,12 +101,13 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                                       builder: (context, scrollController) {
                                         return Column(
                                           children: [
-                                            const ListTile(
+                                            ListTile(
                                               title: Text(
                                                 'Select City',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                                style: AppTheme
+                                                    .theme
+                                                    .textTheme
+                                                    .titleMedium,
                                               ),
                                             ),
                                             const Divider(),
@@ -100,7 +118,13 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                                                 itemBuilder: (context, index) {
                                                   final city = cities[index];
                                                   return ListTile(
-                                                    title: Text(city),
+                                                    title: Text(
+                                                      city,
+                                                      style: AppTheme
+                                                          .theme
+                                                          .textTheme
+                                                          .titleMedium,
+                                                    ),
                                                     onTap: () {
                                                       Navigator.pop(context);
                                                       context
@@ -128,8 +152,13 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
 
                         const Divider(),
                         ListTile(
-                          leading: const Icon(Icons.clear),
-                          title: const Text('Clear Filter'),
+                          leading: const Icon(
+                            Icons.settings_backup_restore_outlined,
+                          ),
+                          title: Text(
+                            'Clear Filter',
+                            style: AppTheme.theme.textTheme.titleMedium,
+                          ),
                           onTap: () {
                             Navigator.pop(context);
                             context.read<FacilityBloc>().add(
@@ -150,6 +179,13 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                 if (state is FacilitiesError) {
                 } else {
                   if (state is FacilitiesLoaded) {
+                    if (state.filteredFacilities.isEmpty) {
+                      return EmptyStateWidget(
+                        icon: Icons.search_off,
+                        title: 'No facilities found',
+                        subtitle: 'Try adjusting your search or filters',
+                      );
+                    }
                     return RefreshIndicator(
                       onRefresh: () async {
                         context.read<FacilityBloc>().add(LoadFacilities());
@@ -166,15 +202,18 @@ class _FacilitiesScreenState extends State<FacilitiesScreen> {
                             cityName: facility.city,
                             sports: facility.sports,
                             courtsNumber: facility.courts.length,
-                            onTap: () {
-                              Navigator.push(
+                            onTap: () async {
+                              await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => FacilityDetailsScreen(
                                     facilityId: facility.id,
+                                    facilityName: facility.name,
                                   ),
                                 ),
-                              );
+                              ).then((value) {
+                                setState(() {});
+                              });
                             },
                           );
                         },

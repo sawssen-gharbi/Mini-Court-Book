@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mini_court_book/core/theme/app_palette.dart';
 import 'package:mini_court_book/core/theme/theme.dart';
 
 class CardWidget extends StatelessWidget {
@@ -15,13 +17,14 @@ class CardWidget extends StatelessWidget {
     required this.facilityName,
     required this.cityName,
     required this.sports,
-    required this.courtsNumber, required this.onTap,
+    required this.courtsNumber,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -34,37 +37,37 @@ class CardWidget extends StatelessWidget {
               ),
               child: CachedNetworkImage(
                 imageUrl: facilityImage,
-                height: 150,
+                height: 150.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
-                  height: 150,
-                  color: Colors.grey[300],
+                  height: 150.h,
+                  color: AppPalette.greyColor[300],
                   child: const Center(child: CircularProgressIndicator()),
                 ),
                 errorWidget: (context, url, error) => Container(
-                  height: 150,
-                  color: Colors.grey[300],
+                  height: 150.h,
+                  color: AppPalette.greyColor[300],
                   child: const Center(
-                    child: Icon(Icons.image_not_supported, size: 48),
+                    child: Icon(Icons.image_not_supported, size: 90),
                   ),
                 ),
               ),
             ),
-            // Content
+
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(facilityName, style: AppTheme.theme.textTheme.bodyLarge),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Row(
                     children: [
                       Icon(
                         Icons.location_on,
                         size: 16,
-                        color: Colors.grey[600],
+                        color: AppPalette.greyColor[600],
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -95,15 +98,16 @@ class CardWidget extends StatelessWidget {
                         )
                         .toList(),
                   ),
+                  SizedBox(height: 12.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         '$courtsNumber courts available',
-                        style: AppTheme.theme.textTheme.bodyLarge,
+                        style: AppTheme.theme.textTheme.bodyMedium,
                       ),
                       Icon(
-                        Icons.arrow_forward_ios,
+                        Icons.remove_red_eye,
                         size: 16,
                         color: AppTheme.theme.primaryColor,
                       ),

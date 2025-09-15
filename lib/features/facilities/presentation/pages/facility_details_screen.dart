@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mini_court_book/core/theme/app_palette.dart';
 import 'package:mini_court_book/core/theme/theme.dart';
 import 'package:mini_court_book/features/bookings/domain/entities/booking.dart';
+import 'package:mini_court_book/features/bookings/presentation/blocs/bloc/my_booking_bloc.dart';
 import 'package:mini_court_book/features/facilities/presentation/blocs/bloc/facility_bloc.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/booking_form_widget.dart';
 import 'package:mini_court_book/features/facilities/presentation/widgets/booking_summary_widget.dart';
@@ -16,8 +18,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class FacilityDetailsScreen extends StatefulWidget {
+  final String facilityName;
   final String facilityId;
-  const FacilityDetailsScreen({super.key, required this.facilityId});
+  const FacilityDetailsScreen({
+    super.key,
+    required this.facilityId,
+    required this.facilityName,
+  });
 
   @override
   State<FacilityDetailsScreen> createState() => _FacilityDetailsScreenState();
@@ -36,22 +43,24 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: BlocConsumer<FacilityBloc, FacilityState>(
         listener: (context, state) {
           if (state is BookingError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
-                backgroundColor: Colors.red,
+                backgroundColor: AppPalette.errorColor,
               ),
             );
           } else if (state is BookingCreated) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Booking created successfully!'),
-                backgroundColor: Colors.green,
+                backgroundColor: AppPalette.primaryColor,
               ),
             );
+            context.read<MyBookingBloc>().add(LoadMyBookings());
             Navigator.pop(context, true);
           }
         },
@@ -67,10 +76,10 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
               controller: _scrollController,
               slivers: [
                 SliverAppBar(
-                  expandedHeight: 250,
+                  title: Text(widget.facilityName),
+                  expandedHeight: 250.h,
                   pinned: true,
                   flexibleSpace: FlexibleSpaceBar(
-                    title: Text(oneFacility.name),
                     background: CachedNetworkImage(
                       imageUrl: oneFacility.thumbnail,
                       fit: BoxFit.cover,
@@ -88,7 +97,7 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                           city: state.facility.city,
                           sports: state.facility.sports,
                         ),
-                        const SizedBox(height: 24),
+                        SizedBox(height: 24.h),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -96,7 +105,7 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                               'Available Courts',
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             ...state.facility.courts.map(
                               (court) => CourtCardWidget(
                                 onTap: () {
@@ -135,7 +144,7 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                             .textTheme
                                             .titleMedium,
                                       ),
-                                      const SizedBox(height: 8),
+                                      SizedBox(height: 8.h),
                                       InkWell(
                                         onTap: () async {
                                           final selectedDate =
@@ -159,9 +168,9 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                           }
                                         },
                                         child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 16,
-                                            vertical: 12,
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 16.w,
+                                            vertical: 12.h,
                                           ),
                                           decoration: BoxDecoration(
                                             border: Border.all(
@@ -189,7 +198,8 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                                   color:
                                                       state.selectedDate != null
                                                       ? Colors.black
-                                                      : Colors.grey[600],
+                                                      : AppPalette
+                                                            .greyColor[600],
                                                 ),
                                               ),
                                               Icon(
@@ -234,7 +244,7 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                                   Icons.info_outline,
                                                   color: Colors.orange[700],
                                                 ),
-                                                const SizedBox(width: 12),
+                                                SizedBox(width: 12.w),
                                                 const Expanded(
                                                   child: Text(
                                                     'No time slots available for this court',
@@ -282,8 +292,10 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                                             context,
                                                           ).primaryColor
                                                         : isAvailable
-                                                        ? Colors.grey[200]
-                                                        : Colors.grey[100],
+                                                        ? AppPalette
+                                                              .greyColor[200]
+                                                        : AppPalette
+                                                              .greyColor[100],
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                           8,
@@ -291,8 +303,9 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                                     border: Border.all(
                                                       color: isAvailable
                                                           ? Colors.transparent
-                                                          : Colors.grey[300]!,
-                                                      width: 1,
+                                                          : AppPalette
+                                                                .greyColor[300]!,
+                                                      width: 1.w,
                                                     ),
                                                   ),
                                                   child: Center(
@@ -327,9 +340,8 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                     Container(
                                       padding: const EdgeInsets.all(16),
                                       decoration: BoxDecoration(
-                                        color: Theme.of(
-                                          context,
-                                        ).primaryColor.withValues(alpha: 0.1),
+                                        color: AppPalette.primaryColor
+                                            .withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: Column(
@@ -345,7 +357,7 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                           ),
-                                          const SizedBox(height: 8),
+                                          SizedBox(height: 8.h),
 
                                           BookingSummaryWidget(
                                             label: "Court:",
@@ -370,7 +382,7 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(height: 16),
+                                    SizedBox(height: 16.h),
                                     SizedBox(
                                       width: double.infinity,
                                       child: ElevatedButton(
@@ -408,13 +420,16 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                           );
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 16,
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 16.h,
                                           ),
                                         ),
-                                        child: const Text(
+                                        child: Text(
                                           'Confirm Booking',
-                                          style: TextStyle(fontSize: 16),
+                                          style: AppTheme
+                                              .theme
+                                              .textTheme
+                                              .bodyMedium,
                                         ),
                                       ),
                                     ),

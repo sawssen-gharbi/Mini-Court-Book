@@ -134,8 +134,12 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
         currentState.copyWith(
           selectedCourt: event.court,
           selectedTime: null,
-          allTimeSlots: [],
-          availableTimeSlots: [],
+          allTimeSlots: currentState.selectedDate != null
+              ? currentState.allTimeSlots
+              : [],
+          availableTimeSlots: currentState.selectedDate != null
+              ? currentState.availableTimeSlots
+              : [],
         ),
       );
     }
@@ -221,7 +225,7 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
 
       if (!currentState.canCreateBooking) {
         emit(const FacilityDetailsError('Please complete all booking details'));
-        await Future.delayed(const Duration(seconds: 2));
+
         emit(currentState);
         return;
       }
@@ -235,12 +239,12 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
           emit(BookingCreated(event.booking));
         } else {
           emit(const BookingError('Failed to save booking'));
-          await Future.delayed(const Duration(seconds: 2));
+
           emit(currentState);
         }
       } catch (e) {
         emit(BookingError(e.toString()));
-        await Future.delayed(const Duration(seconds: 2));
+
         emit(currentState);
       }
     }
