@@ -257,7 +257,7 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
       DateTime bookingEnd = _parseTime(existingBookings[mid].endTime);
 
       if (bookingEnd.isBefore(start) || bookingEnd.isAtSameMomentAs(start)) {
-        startIndex = mid + 1; 
+        startIndex = mid + 1;
         left = mid + 1;
       } else {
         right = mid - 1;
@@ -269,7 +269,10 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
       final existingStart = _parseTime(booking.startTime);
       final existingEnd = _parseTime(booking.endTime);
 
-      
+      if (existingStart.isAfter(end) || existingStart.isAtSameMomentAs(end)) {
+        break;
+      }
+
       if (start.isBefore(existingEnd) && existingStart.isBefore(end)) {
         return true;
       }
