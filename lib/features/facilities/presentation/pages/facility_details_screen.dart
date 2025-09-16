@@ -288,11 +288,17 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                                   state.selectedTime == time;
 
                                               return InkWell(
-                                                onTap: () {
-                                                  context
-                                                      .read<FacilityBloc>()
-                                                      .add(SelectTime(time));
-                                                },
+                                                onTap: isAvailable
+                                                    ? () {
+                                                        context
+                                                            .read<
+                                                              FacilityBloc
+                                                            >()
+                                                            .add(
+                                                              SelectTime(time),
+                                                            );
+                                                      }
+                                                    : null,
                                                 borderRadius:
                                                     BorderRadius.circular(8),
                                                 child: Container(
@@ -303,8 +309,7 @@ class _FacilityDetailsScreenState extends State<FacilityDetailsScreen> {
                                                         : isAvailable
                                                         ? AppPalette
                                                               .greyColor[200]
-                                                        : AppPalette
-                                                              .greyColor[100],
+                                                        : AppPalette.greyColor,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                           8,

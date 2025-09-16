@@ -40,8 +40,8 @@
           "label": "Basketball Court 1",
           "price": 50.0,
           "slotMinutes": 60,
-          "dailyOpen": "08:00",
-          "dailyClose": "22:00"
+               "dailyOpen": "09:00",
+          "dailyClose": "21:00"
         },
         {
           "id": "c_v1",
@@ -49,8 +49,8 @@
           "label": "Volleyball Court A",
           "price": 40.0,
           "slotMinutes": 90,
-          "dailyOpen": "08:00",
-          "dailyClose": "22:00"
+              "dailyOpen": "09:00",
+          "dailyClose": "21:00"
         }
       ]
     },
@@ -67,8 +67,8 @@
           "label": "Tennis Court 1",
           "price": 45.0,
           "slotMinutes": 60,
-          "dailyOpen": "07:00",
-          "dailyClose": "20:00"
+              "dailyOpen": "09:00",
+          "dailyClose": "21:00"
         },
         {
           "id": "c_t2",
@@ -76,8 +76,8 @@
           "label": "Tennis Court 2",
           "price": 45.0,
           "slotMinutes": 60,
-          "dailyOpen": "07:00",
-          "dailyClose": "20:00"
+            "dailyOpen": "09:00",
+          "dailyClose": "21:00"
         }
       ]
     },
@@ -93,18 +93,18 @@
           "sport": "badminton",
           "label": "Badminton Court 1",
           "price": 30.0,
-          "slotMinutes": 30,
-          "dailyOpen": "10:00",
-          "dailyClose": "23:00"
+          "slotMinutes": 60,
+              "dailyOpen": "09:00",
+          "dailyClose": "21:00"
         },
         {
           "id": "c_bm2",
           "sport": "badminton",
           "label": "Badminton Court 2",
           "price": 35.0,
-          "slotMinutes": 30,
-          "dailyOpen": "10:00",
-          "dailyClose": "23:00"
+          "slotMinutes": 60,
+            "dailyOpen": "09:00",
+          "dailyClose": "21:00"
         }
       ]
     },
@@ -121,7 +121,7 @@
           "label": "Tennis Court A",
           "price": 50.0,
           "slotMinutes": 60,
-          "dailyOpen": "08:00",
+         "dailyOpen": "09:00",
           "dailyClose": "21:00"
         },
         {
@@ -130,7 +130,7 @@
           "label": "Padel Court 1",
           "price": 65.0,
           "slotMinutes": 60,
-          "dailyOpen": "08:00",
+              "dailyOpen": "09:00",
           "dailyClose": "21:00"
         }
       ]
@@ -149,7 +149,7 @@
           "price": 70.0,
           "slotMinutes": 60,
           "dailyOpen": "09:00",
-          "dailyClose": "22:00"
+          "dailyClose": "21:00"
         },
         {
           "id": "c_p2",
@@ -157,8 +157,8 @@
           "label": "Padel Court 2",
           "price": 70.0,
           "slotMinutes": 60,
-          "dailyOpen": "09:00",
-          "dailyClose": "22:00"
+               "dailyOpen": "09:00",
+          "dailyClose": "21:00"
         }
       ]
     },
@@ -175,8 +175,8 @@
           "label": "Football 5s A",
           "price": 90.0,
           "slotMinutes": 60,
-          "dailyOpen": "08:00",
-          "dailyClose": "00:00"
+       "dailyOpen": "09:00",
+          "dailyClose": "21:00"
         },
         {
           "id": "c_f5b",
@@ -184,8 +184,8 @@
           "label": "Football 5s B",
           "price": 90.0,
           "slotMinutes": 60,
-          "dailyOpen": "08:00",
-          "dailyClose": "00:00"
+            "dailyOpen": "09:00",
+          "dailyClose": "21:00"
         }
       ]
     },
@@ -201,9 +201,9 @@
           "sport": "handball",
           "label": "Handball Court",
           "price": 60.0,
-          "slotMinutes": 90,
-          "dailyOpen": "09:00",
-          "dailyClose": "22:00"
+          "slotMinutes": 60,
+             "dailyOpen": "09:00",
+          "dailyClose": "21:00"
         },
         {
           "id": "c_b2",
@@ -219,9 +219,9 @@
           "sport": "volleyball",
           "label": "Volleyball Court B",
           "price": 45.0,
-          "slotMinutes": 90,
-          "dailyOpen": "09:00",
-          "dailyClose": "22:00"
+          "slotMinutes": 60,
+              "dailyOpen": "09:00",
+          "dailyClose": "21:00"
         }
       ]
     }
