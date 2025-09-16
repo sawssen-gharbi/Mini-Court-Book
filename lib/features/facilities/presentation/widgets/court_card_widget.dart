@@ -39,7 +39,10 @@ class CourtCardWidget extends StatelessWidget {
                   color: AppPalette.primaryColor.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.abc, color: AppPalette.primaryColor),
+                child: Icon(
+                  _getSportIcon(court.sport),
+                  color: AppPalette.primaryColor,
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -101,5 +104,20 @@ class CourtCardWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+IconData _getSportIcon(String sport) {
+  switch (sport.toLowerCase()) {
+    case 'football':
+      return Icons.sports_soccer;
+    case 'basketball':
+      return Icons.sports_basketball;
+    case 'tennis':
+      return Icons.sports_tennis;
+    case 'padel':
+      return Icons.sports_tennis;
+    default:
+      return Icons.sports;
   }
 }

@@ -191,19 +191,13 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
       final availableSlots = <String>[];
 
       for (final slot in allSlots) {
-        final start = _parseTime(slot);
-        final end = _parseTime(_calculateEndTime(slot, court.slotMinutes));
+        final end = _calculateEndTime(slot, court.slotMinutes);
 
-        bool overlaps = false;
-        for (final booking in existingBookings) {
-          final existingStart = _parseTime(booking.startTime);
-          final existingEnd = _parseTime(booking.endTime);
-
-          if (start.isBefore(existingEnd) && existingStart.isBefore(end)) {
-            overlaps = true;
-            break;
-          }
-        }
+        final overlaps = hasOverlap(
+          startTime: slot,
+          endTime: end,
+          existingBookings: existingBookings,
+        );
 
         if (!overlaps) {
           availableSlots.add(slot);
@@ -217,7 +211,26 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
     }
   }
 
-  DateTime _parseTime(String time) {
+   bool hasOverlap({
+    required String startTime,
+    required String endTime,
+    required List<Booking> existingBookings,
+  }) {
+    final start = _parseTime(startTime);
+    final end = _parseTime(endTime);
+
+    for (final booking in existingBookings) {
+      final existingStart = _parseTime(booking.startTime);
+      final existingEnd = _parseTime(booking.endTime);
+
+      if (start.isBefore(existingEnd) && existingStart.isBefore(end)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static DateTime _parseTime(String time) {
     final now = DateTime.now();
     final jiffy = Jiffy.parse(time, pattern: "HH:mm");
     return DateTime(
