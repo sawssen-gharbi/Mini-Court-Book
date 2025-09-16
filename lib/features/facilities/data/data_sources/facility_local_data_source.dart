@@ -187,6 +187,8 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
             booking.date.day == date.day;
       }).toList();
 
+      existingBookings.sort((a, b) => a.startTime.compareTo(b.startTime));
+
       final allSlots = generateAllTimeSlots(court.dailyOpen, court.dailyClose);
       final availableSlots = <String>[];
 
@@ -215,7 +217,8 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
     }
   }
 
-  bool hasOverlap({
+  //O(n)
+  /*bool hasOverlap({
     required String startTime,
     required String endTime,
     required List<Booking> existingBookings,
@@ -231,6 +234,47 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
         return true;
       }
     }
+    return false;
+  }*/
+
+  //O(log n)
+  bool hasOverlap({
+    required String startTime,
+    required String endTime,
+    required List<Booking> existingBookings,
+  }) {
+    if (existingBookings.isEmpty) return false;
+
+    final start = _parseTime(startTime);
+    final end = _parseTime(endTime);
+
+    int left = 0;
+    int right = existingBookings.length - 1;
+    int startIndex = 0;
+
+    while (left <= right) {
+      int mid = (left + right) ~/ 2;
+      DateTime bookingEnd = _parseTime(existingBookings[mid].endTime);
+
+      if (bookingEnd.isBefore(start) || bookingEnd.isAtSameMomentAs(start)) {
+        startIndex = mid + 1; 
+        left = mid + 1;
+      } else {
+        right = mid - 1;
+      }
+    }
+
+    for (int i = startIndex; i < existingBookings.length; i++) {
+      final booking = existingBookings[i];
+      final existingStart = _parseTime(booking.startTime);
+      final existingEnd = _parseTime(booking.endTime);
+
+      
+      if (start.isBefore(existingEnd) && existingStart.isBefore(end)) {
+        return true;
+      }
+    }
+
     return false;
   }
 
