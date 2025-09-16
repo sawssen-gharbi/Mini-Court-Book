@@ -193,6 +193,10 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
       for (final slot in allSlots) {
         final end = _calculateEndTime(slot, court.slotMinutes);
 
+        if (_parseTime(end).isAfter(_parseTime(court.dailyClose))) {
+          continue;
+        }
+
         final overlaps = hasOverlap(
           startTime: slot,
           endTime: end,
@@ -211,7 +215,7 @@ class FacilityLocalDataSourceImpl implements FacilityLocalDataSource {
     }
   }
 
-   bool hasOverlap({
+  bool hasOverlap({
     required String startTime,
     required String endTime,
     required List<Booking> existingBookings,
